@@ -110,11 +110,11 @@ public class BaseDao<T> implements IBaseDao<T> {
             }
             if (type == String.class) {
                 buffer.append(columnName + " TEXT,");
-            } else if (type == Integer.class) {
+            } else if (type == Integer.class || type == int.class) {
                 buffer.append(columnName + " INTEGER,");
-            } else if (type == Long.class) {
+            } else if (type == Long.class || type == long.class) {
                 buffer.append(columnName + " BIGINT,");
-            } else if (type == Double.class) {
+            } else if (type == Double.class || type == double.class) {
                 buffer.append(columnName + " DOUBLE,");
             } else if (type == byte[].class) {
                 buffer.append(columnName + " BLOB,");
