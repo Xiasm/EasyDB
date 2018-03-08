@@ -116,6 +116,8 @@ public class BaseDao<T> implements IBaseDao<T> {
                 buffer.append(columnName + " BIGINT,");
             } else if (type == Double.class || type == double.class) {
                 buffer.append(columnName + " DOUBLE,");
+            } else if (type == Float.class || type == float.class) {
+                buffer.append(columnName + " DOUBLE,");
             } else if (type == byte[].class) {
                 buffer.append(columnName + " BLOB,");
             } else {
