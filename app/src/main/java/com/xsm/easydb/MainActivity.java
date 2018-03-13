@@ -11,6 +11,9 @@ import com.xsm.easydb.bean.User;
 import com.xsm.easydb.db.BaseDao;
 import com.xsm.easydb.db.BaseDaoFactory;
 
+import java.util.List;
+import java.util.Random;
+
 public class MainActivity extends AppCompatActivity {
 
     @Override
@@ -19,17 +22,46 @@ public class MainActivity extends AppCompatActivity {
         setContentView(R.layout.activity_main);
     }
 
-    public void insertObject(View view) {
-//        User user = new User();
-//        user.setId(2);
-//        user.setName("夏胜明");
-//        user.setPhone("18736045070");
-//        BaseDao<User> dao = BaseDaoFactory.getInstance().getDao(User.class);
-//        long insert = dao.insert(user);
-//        Toast.makeText(this, "插入成功 行数=" + insert, Toast.LENGTH_SHORT).show();
-
-        BaseDao<People> dao = BaseDaoFactory.getInstance().getDao(People.class);
-        long insert = dao.insert(new People(1));
+    public void insert(View view) {
+        User user = new User();
+        user.setId(new Random().nextInt(1000));
+        user.setName("李四");
+        user.setPhone("123456789");
+        BaseDao dao = BaseDaoFactory.getInstance().getDao(BaseDao.class, User.class);
+        long insert = dao.insert(user);
         Toast.makeText(this, "插入成功 行数=" + insert, Toast.LENGTH_SHORT).show();
+
+//        BaseDao<People> dao = BaseDaoFactory.getInstance().getDao(People.class);
+//        long insert = dao.insert(new People(1));
+//        Toast.makeText(this, "插入成功 行数=" + insert, Toast.LENGTH_SHORT).show();
     }
+
+    public void update(View view) {
+        BaseDao dao = BaseDaoFactory.getInstance().getDao(BaseDao.class, User.class);
+        User user = new User();
+        user.setPhone("15514087661");
+        User where = new User();
+        where.setName("张三");
+        long update = dao.update(user, where);
+        Toast.makeText(this, "更新成功 行数=" + update, Toast.LENGTH_SHORT).show();
+    }
+
+    public void delete(View view) {
+        BaseDao dao = BaseDaoFactory.getInstance().getDao(BaseDao.class, User.class);
+        User user = new User();
+        user.setName("李四");
+        int delete = dao.delete(user);
+        Toast.makeText(this, "删除成功 行数=" + delete, Toast.LENGTH_SHORT).show();
+
+    }
+
+    public void query(View view) {
+        BaseDao dao = BaseDaoFactory.getInstance().getDao(BaseDao.class, User.class);
+        User where = new User();
+        where.setName("张三");
+        List<User> query = dao.query(where);
+        Log.d(TAG, "query: " + query.toString());
+    }
+
+    private static final String TAG = "MainActivity";
 }

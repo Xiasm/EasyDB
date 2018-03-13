@@ -1,0 +1,6 @@
+### 首先确保手机已ROOT
+第一步：adb shell
+第二部：cd /data/data/com.example.xuyushi.loadertest/databases
+第三步：sqlite3 数据库名
+第四部：.table （查看已建的表格）
+第五步：select * from tablename; (后面的分号记得加)

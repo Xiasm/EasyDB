@@ -31,17 +31,17 @@ public class BaseDaoFactory {
         mSQLiteDatabase = SQLiteDatabase.openOrCreateDatabase(mDbPath, null);
     }
 
-    public <T> BaseDao<T> getDao(Class<T> entityClass) {
+    public <T extends BaseDao<V>, V> T getDao(Class<T> daoClass, Class<V> entityClass) {
         BaseDao baseDao = null;
         try {
-            baseDao = BaseDao.class.newInstance();
+            baseDao = daoClass.newInstance();
             baseDao.init(mSQLiteDatabase, entityClass);
         } catch (InstantiationException e) {
             e.printStackTrace();
         } catch (IllegalAccessException e) {
             e.printStackTrace();
         }
-        return baseDao;
+        return (T) baseDao;
     }
 
 

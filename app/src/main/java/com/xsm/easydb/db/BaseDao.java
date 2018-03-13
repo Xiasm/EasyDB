@@ -10,8 +10,11 @@ import com.xsm.easydb.annotation.DbFiled;
 import com.xsm.easydb.annotation.DbTable;
 
 import java.lang.reflect.Field;
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Iterator;
+import java.util.List;
+import java.util.Map;
 import java.util.Set;
 
 /**
@@ -140,6 +143,84 @@ public class BaseDao<T> implements IBaseDao<T> {
         return mSQLiteDatabase.insert(mTableName, null, values);
     }
 
+    @Override
+    public long update(T entity, T where) {
+        //        sqLiteDatabase.update(tableName,contentValues,"name=",new String[]{"jett"});
+        HashMap<String, String> map = getObjectKeyValues(entity);
+        ContentValues contentValues = getContentValues(map);
+        HashMap<String, String> whereCause = getObjectKeyValues(where);
+        Condition condition = new Condition(whereCause);
+        return mSQLiteDatabase.update(mTableName, contentValues, condition.whereCause, condition.whereArgs);
+    }
+
+    @Override
+    public int delete(T where) {
+        HashMap<String, String> map = getObjectKeyValues(where);
+        Condition condition = new Condition(map);
+        return mSQLiteDatabase.delete(mTableName, condition.whereCause, condition.whereArgs);
+    }
+
+    @Override
+    public List<T> query(T where) {
+        return query(where, null, null, null);
+    }
+
+    @Override
+    public List<T> query(T where, String orderBy, Integer startIndex, Integer limit) {
+        //        sqLiteDatabase.query(tableName,null,"id=?",new String[],null,null,orderBy,"1,5");
+        HashMap<String, String> map = getObjectKeyValues(where);
+        String limitString = null;
+        if (startIndex != null && limit != null) {
+            limitString = startIndex + " , " + limit;
+        }
+        Condition condition = new Condition(map);
+        Cursor cursor = mSQLiteDatabase.query(mTableName, null, condition.whereCause, condition.whereArgs, null, null, orderBy, limitString);
+        return getResult(cursor, where);
+    }
+
+    private List<T> getResult(Cursor cursor, T obj) {
+        ArrayList list = new ArrayList<>();
+        Object item = null;
+        while (cursor.moveToNext()) {
+            try {
+                item = obj.getClass().newInstance();
+                //表字段-成员变量
+                Iterator<Map.Entry<String, Field>> iterator = mCacheMap.entrySet().iterator();
+                while (iterator.hasNext()) {
+                    Map.Entry<String, Field> entry = iterator.next();
+                    //取列名
+                    String columnName = entry.getKey();
+                    int columnIndex = cursor.getColumnIndex(columnName);
+                    if (columnIndex == -1) {
+                        continue;
+                    }
+                    Field field = entry.getValue();
+                    Class<?> type = field.getType();
+                    if (type == String.class) {
+                        field.set(item, cursor.getString(columnIndex));
+                    } else if (type == Double.class || type == double.class) {
+                        field.set(item, cursor.getDouble(columnIndex));
+                    } else if (type == Integer.class || type == int.class) {
+                        field.set(item, cursor.getInt(columnIndex));
+                    } else if (type == Long.class || type == long.class) {
+                        field.set(item, cursor.getLong(columnIndex));
+                    } else if (type == byte[].class) {
+                        field.set(item, cursor.getBlob(columnIndex));
+                    } else {
+                        continue;
+                    }
+                }
+                list.add(item);
+            } catch (InstantiationException e) {
+                e.printStackTrace();
+            } catch (IllegalAccessException e) {
+                e.printStackTrace();
+            }
+        }
+        cursor.close();
+        return list;
+    }
+
     /**
      * 根据map里字段的键值对添加ContentValues
      * @param map
@@ -189,5 +270,29 @@ public class BaseDao<T> implements IBaseDao<T> {
             }
         }
         return map;
+    }
+
+    private class Condition {
+        private String whereCause;
+        private String[] whereArgs;
+
+        public Condition(Map<String, String> whereCause) {
+            ArrayList<String> list = new ArrayList<>();
+            StringBuilder builder = new StringBuilder();
+            builder.append("1=1");
+            Set<String> keys = whereCause.keySet();
+            Iterator<String> iterator = keys.iterator();
+            while (iterator.hasNext()) {
+                String key = iterator.next();
+                String value = whereCause.get(key);
+                if (value != null) {
+                    builder.append(" and " + key + "=?");
+                    list.add(value);
+                }
+            }
+            this.whereCause = builder.toString();
+            this.whereArgs = list.toArray(new String[list.size()]);
+
+        }
     }
 }

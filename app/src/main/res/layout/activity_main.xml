@@ -10,8 +10,22 @@
 
     <Button
         android:text="插入对象"
-        android:onClick="insertObject"
+        android:onClick="insert"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"/>
-
+    <Button
+        android:text="更新对象"
+        android:onClick="update"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"/>
+    <Button
+        android:text="删除对象"
+        android:onClick="delete"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"/>
+    <Button
+        android:text="查询对象"
+        android:onClick="query"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"/>
 </LinearLayout>

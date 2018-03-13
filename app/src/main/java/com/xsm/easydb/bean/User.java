@@ -11,8 +11,7 @@ import com.xsm.easydb.annotation.DbTable;
  */
 @DbTable("tb_user")
 public class User {
-    @DbFiled("_id")
-    private int id;
+    private Integer id;
     @DbFiled("userName")
     private String name;
     private String phone;
@@ -39,5 +38,14 @@ public class User {
 
     public void setPhone(String phone) {
         this.phone = phone;
+    }
+
+    @Override
+    public String toString() {
+        return "User{" +
+                "id=" + id +
+                ", name='" + name + '\'' +
+                ", phone='" + phone + '\'' +
+                '}';
     }
 }
