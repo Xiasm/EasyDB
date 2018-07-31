@@ -1,7 +1,6 @@
-package com.xsm.easydb.db;
+package com.xsm.db.db;
 
 import android.database.sqlite.SQLiteDatabase;
-import android.widget.BaseAdapter;
 
 /**
  * Author: 夏胜明

@@ -1,7 +1,8 @@
 package com.xsm.easydb.bean;
 
-import com.xsm.easydb.annotation.DbFiled;
-import com.xsm.easydb.annotation.DbTable;
+
+import com.xsm.db.annotation.DbFiled;
+import com.xsm.db.annotation.DbTable;
 
 /**
  * Author: 夏胜明

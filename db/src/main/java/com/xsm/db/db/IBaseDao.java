@@ -1,4 +1,4 @@
-package com.xsm.easydb.db;
+package com.xsm.db.db;
 
 import java.util.List;
 
@@ -13,7 +13,7 @@ public interface IBaseDao<T> {
 
     long insert(T entity);
 
-    long update(T entity,T where);
+    long update(T entity, T where);
 
     int delete(T where);
 

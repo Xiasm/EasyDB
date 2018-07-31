@@ -1,15 +1,15 @@
 package com.xsm.easydb;
 
+import android.content.Intent;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
 import android.widget.Toast;
 
-import com.xsm.easydb.bean.People;
+import com.xsm.db.db.BaseDao;
+import com.xsm.db.db.BaseDaoFactory;
 import com.xsm.easydb.bean.User;
-import com.xsm.easydb.db.BaseDao;
-import com.xsm.easydb.db.BaseDaoFactory;
 
 import java.util.List;
 import java.util.Random;
@@ -31,9 +31,6 @@ public class MainActivity extends AppCompatActivity {
         long insert = dao.insert(user);
         Toast.makeText(this, "插入成功 行数=" + insert, Toast.LENGTH_SHORT).show();
 
-//        BaseDao<People> dao = BaseDaoFactory.getInstance().getDao(People.class);
-//        long insert = dao.insert(new People(1));
-//        Toast.makeText(this, "插入成功 行数=" + insert, Toast.LENGTH_SHORT).show();
     }
 
     public void update(View view) {
@@ -64,4 +61,8 @@ public class MainActivity extends AppCompatActivity {
     }
 
     private static final String TAG = "MainActivity";
+
+    public void nextActivity(View view) {
+        startActivity(new Intent(MainActivity.this, SecondActivity.class));
+    }
 }

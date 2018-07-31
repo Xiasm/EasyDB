@@ -1,4 +1,4 @@
-package com.xsm.easydb.db;
+package com.xsm.db.db;
 
 import android.content.ContentValues;
 import android.database.Cursor;
@@ -8,6 +8,7 @@ import android.util.Log;
 
 import com.xsm.easydb.annotation.DbFiled;
 import com.xsm.easydb.annotation.DbTable;
+import com.xsm.easydb.utils.Utils;
 
 import java.lang.reflect.Field;
 import java.util.ArrayList;
@@ -41,7 +42,7 @@ public class BaseDao<T> implements IBaseDao<T> {
         this.mEntityClass = entityClass;
         if (!isInit) {
             DbTable dbTable = mEntityClass.getAnnotation(DbTable.class);
-            if (dbTable != null && !TextUtils.isEmpty(dbTable.value())) {
+            if (dbTable != null && !Utils.isEmpty(dbTable.value())) {
                 mTableName = dbTable.value();
             } else {
                 mTableName = mEntityClass.getSimpleName();
