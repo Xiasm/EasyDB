@@ -34,8 +34,6 @@ public class MainActivity extends AppCompatActivity {
         user.setPhone("123456789");
         BaseDao dao = BaseDaoFactory.getInstance().getDao(BaseDao.class, User.class);
         long insert = dao.insert(user);
-        Toast.makeText(this, "插入成功 行数=" + insert, Toast.LENGTH_SHORT).show();
-
     }
 
     public void update(View view) {
@@ -45,7 +43,6 @@ public class MainActivity extends AppCompatActivity {
         User where = new User();
         where.setName("张三");
         long update = dao.update(user, where);
-        Toast.makeText(this, "更新成功 行数=" + update, Toast.LENGTH_SHORT).show();
     }
 
     public void delete(View view) {
@@ -53,8 +50,6 @@ public class MainActivity extends AppCompatActivity {
         User user = new User();
         user.setName("李四");
         int delete = dao.delete(user);
-        Toast.makeText(this, "删除成功 行数=" + delete, Toast.LENGTH_SHORT).show();
-
     }
 
     public void query(View view) {
@@ -62,7 +57,6 @@ public class MainActivity extends AppCompatActivity {
         User where = new User();
         where.setName("张三");
         List<User> query = dao.query(where);
-        Log.d(TAG, "query: " + query.toString());
     }
 
     private static final String TAG = "MainActivity";
