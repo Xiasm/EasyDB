@@ -9,6 +9,7 @@ import android.widget.Toast;
 
 import com.xsm.db.db.BaseDao;
 import com.xsm.db.db.BaseDaoFactory;
+import com.xsm.db.utils.Utils;
 import com.xsm.easydb.bean.User;
 
 import java.util.List;
@@ -20,6 +21,10 @@ public class MainActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+        String packageCodePath = getPackageName();
+        if (Utils.isEmpty(packageCodePath) ) {
+
+        }
     }
 
     public void insert(View view) {

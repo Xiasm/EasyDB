@@ -2,6 +2,8 @@ package com.xsm.db.db;
 
 import android.database.sqlite.SQLiteDatabase;
 
+import com.xsm.db.EasyDB;
+
 /**
  * Author: 夏胜明
  * Date: 2018/3/8 0008
@@ -11,6 +13,7 @@ import android.database.sqlite.SQLiteDatabase;
 
 public class BaseDaoFactory {
     private static BaseDaoFactory instance = null;
+
     public static BaseDaoFactory getInstance() {
         if (instance == null) {
             synchronized (BaseDaoFactory.class) {
@@ -23,11 +26,13 @@ public class BaseDaoFactory {
     }
 
     private SQLiteDatabase mSQLiteDatabase;
-    private String mDbPath;
 
     private BaseDaoFactory() {
-        mDbPath = "data/data/com.xsm.easydb/easydb.db";
-        mSQLiteDatabase = SQLiteDatabase.openOrCreateDatabase(mDbPath, null);
+        if (!EasyDB.isInit()) {
+            throw new RuntimeException("easy db not init !");
+        }
+        String dbPath = "data/data/" + EasyDB.getPackageName() + "/easydb.db";
+        mSQLiteDatabase = SQLiteDatabase.openOrCreateDatabase(dbPath, null);
     }
 
     public <T extends BaseDao<V>, V> T getDao(Class<T> daoClass, Class<V> entityClass) {
