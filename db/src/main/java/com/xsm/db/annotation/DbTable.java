@@ -9,6 +9,7 @@ import java.lang.annotation.Target;
  * Author: 夏胜明
  * Date: 2018/3/8 0008
  * Email: xiasem@163.com
+ * Github：https://github.com/Xiasm
  * Description: 此注解用来定义表名，如果没有添加此注解，默认以类名作为表名
  */
 @Target(ElementType.TYPE)
